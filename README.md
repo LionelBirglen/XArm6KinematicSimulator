@@ -1,5 +1,5 @@
 # XArm6 Kinematic Simulator
-Matlab and Python Files to Simulate the Kinematics of a UFactory xArm6 Robot Arm. Functions are provided for solving the forward kinematics, inverse kinematics, and 3-D visualisation of the [UFactory xArm 6](https://www.ufactory.cc/xarm-collaborative-robot) robotic arm,
+Matlab and Python Files to Simulate the Kinematics of a UFactory xArm6 Robot Arm. Functions are provided for solving the forward kinematics, inverse kinematics, and 3-D visualisation of the [UFactory xArm 6](https://www.ufactory.cc/xarm-collaborative-robot) robotic arm.
 
 ![Matlab Plot Example](media/matlab_plot_example.png)
 ![Matlab Trajectory Example](media/matlab_trajectory_example.png)
@@ -34,8 +34,7 @@ nothing. Tested on Matlab R2023a.
 
 ## Orientation conventions
 
-All conventions follow the UFactory SDK definitions.
-
+All conventions follow the UFactory SDK definitions:
 | Field | Convention |
 |---|---|
 | `rpy` | XYZ fixed-angle: R = Rz(yaw) · Ry(pitch) · Rx(roll) |
@@ -43,10 +42,8 @@ All conventions follow the UFactory SDK definitions.
 | `axis_angle` | Compact rotation vector [Rx, Ry, Rz] = φ · [nx, ny, nz], φ ≥ 0 |
 
 
----
-
 ## Joint limits
-
+Actual UFactory xArm 6 joint limits are considered namely:
 | Joint | Lower | Upper |
 |---|---|---|
 | q1 | −360° | +360° |
@@ -56,8 +53,9 @@ All conventions follow the UFactory SDK definitions.
 | q5 | −97°  | +180° |
 | q6 | −360° | +360° |
 
----
+Prof. Lionel Birglen<br>
+Polytechnique Montreal, 2026<br>
+License: GNU GPL v3
 
-## License
-
-MIT
+###  DISCLAIMER:
+This hardware project is provided "as is", and at your own risk. Under no circumstances shall any author be liable for direct, indirect, special, incidental, or consequential damages resulting from the use, misuse, or inability to use this hardware/software, even if the authors have been advised of the possibility of such damages.
