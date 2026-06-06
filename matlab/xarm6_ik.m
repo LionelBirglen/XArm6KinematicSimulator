@@ -118,7 +118,7 @@ function [Q, num_solutions] = xarm6_ik(target, q_ref, varargin)
     rng_state = rng(42, 'twister');
     seeds = [q_ref; zeros(1,6)];
     for k = 1:n_seeds
-        seeds(end+1, :) = lo + rand(1,6) .* (hi - lo); %#ok<AGROW>
+        seeds(end+1, :) = lo + rand(1,6) .* (hi - lo); 
     end
     rng(rng_state);
 
@@ -132,7 +132,7 @@ function [Q, num_solutions] = xarm6_ik(target, q_ref, varargin)
         if norm(pose_chk.p - T_des(1:3,4)) > tol_pos * 10, continue; end
 
         if all(q_sol >= lo & q_sol <= hi)
-            Q_all(end+1, :) = q_sol; %#ok<AGROW>
+            Q_all(end+1, :) = q_sol;
         end
     end
 
@@ -284,7 +284,7 @@ function [q, converged] = newton_ik(T_des, q0, tol_pos, tol_rot, max_iter)
 
     q = q0(:)';
 
-    for iter = 1:max_iter                           %#ok<FXUP>
+    for iter = 1:max_iter                          
         pose = xarm6_fk(q);
         Tc   = pose.T;
 
