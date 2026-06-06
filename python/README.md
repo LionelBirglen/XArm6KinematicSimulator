@@ -1,4 +1,4 @@
-## Quick start
+## Quick Start
 
 ### Python Example
 
@@ -27,7 +27,7 @@ fig = xarm6_plot(q, show_frames=True)
 plt.show()
 ```
 
-## Configuring the tool (TCP and Bounding Box)
+## Configuring the Tool (TCP and Bounding Box)
 
 Edit the bottom of `xarm6_params.py` 
 
