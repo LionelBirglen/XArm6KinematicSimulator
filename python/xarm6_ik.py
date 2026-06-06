@@ -39,8 +39,8 @@ def xarm6_ik(
     +-----------------------+------------------------------------------------+
 
     Uses a Jacobian damped-least-squares Newton solver with multiple random
-    seeds. WHY NUMERICAL: the xArm 6 has a non-zero link offset on joint 5
-    (a5 = 76 mm), so axes 4-5-6 do NOT form a true spherical wrist.
+    seeds. Why a numerical approach is used: the xArm 6 has a non-zero link offset 
+    on joint 5 (a5 = 76 mm), so axes 4-5-6 do NOT form a spherical wrist.
 
     Parameters
     ----------
