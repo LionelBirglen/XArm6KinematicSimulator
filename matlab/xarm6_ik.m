@@ -3,6 +3,7 @@ function [Q, num_solutions] = xarm6_ik(target, q_ref, varargin)
 %
 % Author : Lionel Birglen (with assistance from Anthropic Claude)
 % Polytechnique Montreal, 2026
+%
 %   [Q, num_solutions] = xarm6_ik(target)
 %   [Q, num_solutions] = xarm6_ik(target, q_ref)
 %   [Q, num_solutions] = xarm6_ik(target, q_ref, 'Name', Value, ...)
@@ -28,7 +29,7 @@ function [Q, num_solutions] = xarm6_ik(target, q_ref, varargin)
 %   You may also pass the raw pose struct returned by xarm6_fk — all four
 %   orientation fields are present, and .T is used directly.
 %
-%   WHY NUMERICAL:
+%   Why a numerical approach:
 %       The xArm 6 has a non-zero link offset on joint 5 (a5 = 76 mm),
 %       meaning axes 4-5-6 do NOT intersect at a common point and the arm
 %       does NOT have a true spherical wrist.
@@ -59,6 +60,7 @@ function [Q, num_solutions] = xarm6_ik(target, q_ref, varargin)
 %       q4 : [-2π,    +2π  ]
 %       q5 : [-1.692, +3.141]  (-97° to +180°)
 %       q6 : [-2π,    +2π  ]
+%	Unless something else is defined in xarm6_params.m
 %
 %   Examples:
 %       %% 1. From a homogeneous matrix (original usage, unchanged)
