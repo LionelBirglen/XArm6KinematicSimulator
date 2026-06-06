@@ -1,5 +1,5 @@
 %% xarm6_kinematics_demo.m
-% Demonstration and validation of xarm6_fk and xarm6_ik.
+% Demonstration and validation script for xarm6_fk and xarm6_ik functions.
 %
 % Author : Lionel Birglen (with assistance from Anthropic Claude)
 % Polytechnique Montreal, 2026

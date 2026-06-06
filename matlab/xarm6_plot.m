@@ -3,6 +3,7 @@ function xarm6_plot(q, options)
 %
 % Author : Lionel Birglen (with assistance from Anthropic Claude)
 % Polytechnique Montreal, 2026
+%
 %   xarm6_plot(q)
 %   xarm6_plot(q, options)
 %

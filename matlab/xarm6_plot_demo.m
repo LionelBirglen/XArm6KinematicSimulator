@@ -1,5 +1,5 @@
 % xarm6_plot_demo.m
-% Scrip to demonstrate xarm6_plot for static poses and a smooth animation.
+% Script to demonstrate xarm6_plot for static poses and a smooth animation.
 %
 % Requires: xarm6_fk.m, xarm6_ik.m, xarm6_plot.m, xarm6_params.m
 %
