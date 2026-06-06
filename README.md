@@ -1,19 +1,14 @@
 # XArm6 Kinematic Simulator
 Matlab and Python Files to Simulate the Kinematics of a UFactory xArm6 Robot Arm. Functions are provided for solving the forward kinematics, inverse kinematics, and 3-D visualisation of the [UFactory xArm 6](https://www.ufactory.cc/xarm-collaborative-robot) robotic arm,
 
----
-
-## Screenshots
-
-### Static poses
-![Four static poses of the xArm 6](media/screenshot_poses.png)
+![Matlab Plot Example](media/matlab_plot_example.png)
+![Matlab Trajectory Example](media/matlab_trajectory_example.png)
 
 ### TCP trajectory during animation
 ![xArm 6 with TCP trajectory](media/screenshot_trajectory.png)
 
----
 
-## Features
+# Features
 
 - **Forward kinematics** — returns the flange and TCP pose in four orientation conventions simultaneously: homogeneous matrix, roll-pitch-yaw (XYZ fixed-angle, UFactory convention), unit quaternion, and axis-angle vector.
 - **Inverse kinematics** — numerical Jacobian damped-least-squares solver with multiple random seeds. Accepts target poses in any of the same four conventions. No closed-form approximation: the solver accounts for the non-spherical wrist geometry (joint-5 offset a₅ = 76 mm).
