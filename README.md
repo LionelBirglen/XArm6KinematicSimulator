@@ -5,18 +5,12 @@ Matlab and Python Files to Simulate the Kinematics of a UFactory xArm6 Robot Arm
 ![Matlab Trajectory Example](media/matlab_trajectory_example.png)
 
 
-### TCP trajectory during animation
-![xArm 6 with TCP trajectory](media/screenshot_trajectory.png)
-
 
 # Features
-
-- **Forward kinematics** — returns the flange and TCP pose in four orientation conventions simultaneously: homogeneous matrix, roll-pitch-yaw (XYZ fixed-angle, UFactory convention), unit quaternion, and axis-angle vector.
-- **Inverse kinematics** — numerical Jacobian damped-least-squares solver with multiple random seeds. Accepts target poses in any of the same four conventions. No closed-form approximation: the solver accounts for the non-spherical wrist geometry (joint-5 offset a₅ = 76 mm).
-- **3-D visualiser** — rectangular beam links, capped cylinders aligned to each joint's rotation axis, coordinate frame triads at the flange and TCP, and an animated TCP trajectory.
-- **Configurable tool** — TCP offset and bounding box defined once in `xarm6_params` and automatically propagated to FK, IK, and the visualiser.
-- **Single source of truth** — DH parameters, joint limits, TCP offset, and tool box all live in `xarm6_params`. Change them there and every other file picks them up.
-
+- **Forward kinematics** returns the flange and TCP pose in four orientation conventions simultaneously: homogeneous matrix, roll-pitch-yaw (XYZ fixed-angle), unit quaternion, and axis-angle vector (UFactory convention).
+- **Inverse kinematics** returns joint angles from a know pose using a numerical Jacobian damped-least-squares solver with multiple random seeds. Accepts target poses in any of the same four conventions. The solver accounts for the non-spherical wrist geometry (joint-5 offset of 76 mm).
+- **3-D visualiser** — rectangular beam links, capped cylinders aligned to each joint's rotation axis, coordinate frame triads at the base and TCP by default, and an animated TCP trajectory example.
+- **Configurable** with a single definition of DH parameters, joint limits, TCP offset+bounding box defined in "xarm6_params". Changes are automatically propagated to FK, IK, and the visualiser.
 ---
 
 ## File overview
@@ -31,52 +25,16 @@ Matlab and Python Files to Simulate the Kinematics of a UFactory xArm6 Robot Arm
 | `xarm6_plot_demo.py` / `.m` | Static pose viewer, IK verification, and animation |
 | `xarm6_reload.py` | Reload all modules after editing `xarm6_params` (Python only) |
 
----
-
-## Requirements
-
-**Python**
-```
+## Python Requirements
 numpy >= 1.24
 matplotlib >= 3.7
-```
-Install with:
-```bash
-pip install numpy matplotlib
-```
 
-**MATLAB** — no toolboxes required. Tested on R2021b and later.
+## MATLAB Requirements
+nothing. Tested on Matlab R2023a.
 
 ---
 
-## Quick start
 
-### Python
-
-```python
-import numpy as np
-from xarm6_fk import xarm6_fk
-from xarm6_ik import xarm6_ik
-from xarm6_plot import xarm6_plot
-import matplotlib.pyplot as plt
-
-# Forward kinematics
-q    = np.deg2rad([30, -45, 0, 0, 45, -30])
-pose = xarm6_fk(q)
-print(f"Flange position : {pose.p.round(2)} mm")
-print(f"TCP    position : {pose.p_tcp.round(2)} mm")
-print(f"RPY (deg)       : {np.degrees(pose.rpy).round(2)}")
-print(f"Quaternion      : {pose.quat.round(4)}")
-
-# Inverse kinematics
-Q, n = xarm6_ik(pose, q_ref=q)
-print(f"\n{n} IK solution(s):")
-print(np.round(np.degrees(Q), 2))
-
-# 3-D visualisation
-fig = xarm6_plot(q, show_frames=True)
-plt.show()
-```
 
 ### MATLAB
 
