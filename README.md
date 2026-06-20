@@ -1,5 +1,5 @@
 # XArm6 Kinematic Simulator
-Matlab and Python Files to Simulate the Kinematics of a UFactory xArm6 Robot Arm. Functions are provided for solving the forward kinematics, inverse kinematics, and 3-D visualisation of the [UFactory xArm 6](https://www.ufactory.cc/xarm-collaborative-robot) robotic arm.
+Matlab and Python Files to Simulate the Kinematics of a UFactory xArm6 Robot Arm. Functions are provided for solving the forward kinematics, inverse kinematics, and 3-D visualisation of the [UFactory xArm 6](https://www.ufactory.cc/xarm-collaborative-robot) robotic arm. All functions are written to be *fully compatible with Octave*.
 
 ![Matlab Plot Example](media/matlab_plot_example.png)
 ![Matlab Trajectory Example](media/matlab_trajectory_example.png)
