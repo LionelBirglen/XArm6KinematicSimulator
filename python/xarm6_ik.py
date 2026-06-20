@@ -39,8 +39,8 @@ def xarm6_ik(
     +-----------------------+------------------------------------------------+
 
     Uses a Jacobian damped-least-squares Newton solver with multiple random
-    seeds. Why a numerical approach is used: the xArm 6 has a non-zero link offset 
-    on joint 5 (a5 = 76 mm), so axes 4-5-6 do NOT form a spherical wrist.
+    seeds. WHY NUMERICAL: the xArm 6 has a non-zero link offset on joint 5
+    (a5 = 76 mm), so axes 4-5-6 do NOT form a true spherical wrist.
 
     Parameters
     ----------
@@ -71,11 +71,10 @@ def xarm6_ik(
     >>> from xarm6_ik import xarm6_ik
     >>> pose = xarm6_fk(np.deg2rad([30, -45, 0, 0, 45, -30]))
     >>> Q, n = xarm6_ik(pose)                             # from Pose object
-    >>> print(np.round(np.degrees(Q), 2));print(n)        # solutions in degrees, 2 d.p.
     >>> Q, n = xarm6_ik(pose.T)                           # from 4x4 matrix
-    >>> print(np.round(np.degrees(Q), 2));print(n)        # solutions in degrees, 2 d.p.
-    >>> Q, n = xarm6_ik({'p': pose.p, 'rpy': pose.rpy})   # from position+RPY
-    >>> print(np.round(np.degrees(Q), 2));print(n)        # solutions in degrees, 2 d.p.
+    >>> Q, n = xarm6_ik({'p': pose.p, 'rpy': pose.rpy})  # from position+RPY
+    >>> print(f"{n} solution(s) found")
+    >>> print(np.round(np.degrees(Q), 2))                 # solutions in degrees, 2 d.p.
     """
     if q_ref is None:
         q_ref = np.zeros(6)
@@ -87,10 +86,22 @@ def xarm6_ik(
     lo = qlim[:, 0]
     hi = qlim[:, 1]
 
-    # ---- Build seeds -----------------------------------------------------
-    rng = np.random.default_rng(42)
+    # ---- Build seeds -------------------------------------------------
+    # Deterministic seeds using a van der Corput / Halton-inspired
+    # low-discrepancy sequence (different prime base per joint), so results
+    # are fully reproducible without relying on a random number generator.
+    bases = [2, 3, 5, 7, 11, 13]
     seeds = [q_ref.copy(), np.zeros(6)]
-    seeds += [lo + rng.random(6) * (hi - lo) for _ in range(n_seeds)]
+    for k in range(1, n_seeds + 1):
+        frac = np.zeros(6)
+        for j in range(6):
+            n_k, f, r = k, 1.0, 0.0
+            while n_k > 0:
+                f /= bases[j]
+                r += (n_k % bases[j]) * f
+                n_k //= bases[j]
+            frac[j] = r
+        seeds.append(lo + frac * (hi - lo))
 
     # ---- Newton solver from each seed ------------------------------------
     solutions = []
@@ -107,7 +118,29 @@ def xarm6_ik(
     if not solutions:
         return np.empty((0, 6)), 0
 
-    Q = np.unique(np.round(np.array(solutions), 3), axis=0)
+    Q = np.array(solutions)
+
+    # ---- Deduplicate & sort -----------------------------------------------
+    # Pairwise tolerance-based deduplication using a wrap-aware angular
+    # distance, so e.g. +pi-0.02 and -pi+0.01 are correctly recognised as
+    # the same angle WITHOUT modifying either value (modifying a converged
+    # solution, e.g. snapping it to exactly -pi, can silently introduce a
+    # real pose error of several mm).
+    DEDUP_TOL = 0.05   # rad (~2.9 deg)
+
+    keep_mask = np.ones(Q.shape[0], dtype=bool)
+    for i in range(Q.shape[0] - 1):
+        if not keep_mask[i]:
+            continue
+        for j in range(i + 1, Q.shape[0]):
+            if not keep_mask[j]:
+                continue
+            d = np.abs(Q[i] - Q[j])
+            d = np.minimum(d, 2 * math.pi - d)   # wrap-aware angular distance
+            if np.max(d) < DEDUP_TOL:
+                keep_mask[j] = False
+    Q = Q[keep_mask]
+
     dists = np.sum((Q - q_ref) ** 2, axis=1)
     Q = Q[np.argsort(dists)]
     return Q, Q.shape[0]

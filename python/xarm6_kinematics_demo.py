@@ -146,11 +146,20 @@ for t in range(1, N_TEST + 1):
     elif conv == 2: tgt = {'p': p_rand.p, 'rpy':  p_rand.rpy}
     else:           tgt = {'p': p_rand.p, 'quat': p_rand.quat}
 
-    Qt, ns = xarm6_ik(tgt, q_rand, n_seeds=8)
+    # NOTE: q_ref is intentionally NOT set to q_rand here. Passing the exact
+    # answer as q_ref would make it the first seed, so Newton's method would
+    # start already at the solution (zero error trivially). Omitting q_ref
+    # tests genuine cold-start convergence from generic seeds only.
+    Qt, ns = xarm6_ik(tgt, n_seeds=8)
     if ns == 0:
         no_sol += 1
         continue
-    p_rec = xarm6_fk(Qt[0])
+    # Since q_ref was not provided, solutions are sorted by distance to
+    # zeros(6); pick whichever returned solution is closest to q_rand
+    # for a fair "did we find the right configuration" comparison.
+    dists_to_true = np.sum((Qt - q_rand) ** 2, axis=1)
+    best_idx = int(np.argmin(dists_to_true))
+    p_rec = xarm6_fk(Qt[best_idx])
     pos_errs.append(float(np.linalg.norm(p_rec.p - p_rand.p)))
     dR    = p_rec.T[:3,:3].T @ p_rand.T[:3,:3]
     cos_a = max(-1.0, min(1.0, (np.trace(dR)-1)/2))
