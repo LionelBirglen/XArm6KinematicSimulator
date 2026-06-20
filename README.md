@@ -3,7 +3,7 @@ Matlab and Python Files to Simulate the Kinematics of a UFactory xArm6 Robot Arm
 
 ![Matlab Plot Example](media/matlab_plot_example.png)
 ![Matlab Trajectory Example](media/matlab_trajectory_example.png)
-
+![Matlab Trajectory Video Example](media/xarm6_animation_medium.gif)
 
 
 # Features
