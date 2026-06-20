@@ -47,15 +47,17 @@ Actual UFactory xArm 6 joint limits are considered namely:
 | Joint | Lower | Upper |
 |---|---|---|
 | q1 | −360° | +360° |
-| q2 | −118° | +118° |
-| q3 | −225° | +11°  |
+| q2 | −117° | +116° |
+| q3 | −219° | +10°  |
 | q4 | −360° | +360° |
 | q5 | −97°  | +180° |
 | q6 | −360° | +360° |
 
+##  DISCLAIMER:
+This project is provided "as is", and at your own risk. Under no circumstances shall any author be liable for direct, indirect, special, incidental, or consequential damages resulting from the use, misuse, or inability to use this hardware/software, even if the authors have been advised of the possibility of such damages.
+
+---
+
 Prof. Lionel Birglen<br>
 Polytechnique Montreal, 2026<br>
 License: GNU GPL v3
-
-###  DISCLAIMER:
-This hardware project is provided "as is", and at your own risk. Under no circumstances shall any author be liable for direct, indirect, special, incidental, or consequential damages resulting from the use, misuse, or inability to use this hardware/software, even if the authors have been advised of the possibility of such damages.
